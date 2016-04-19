@@ -1,2 +1,4 @@
-# rdiit_containers
-Containers
+# rdkit_containers
+Containers for building and working with the RDKit
+
+
