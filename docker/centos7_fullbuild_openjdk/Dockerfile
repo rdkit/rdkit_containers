@@ -68,11 +68,16 @@ RUN mkdir /var/psql && \
 
 RUN mkdir $RDBASE/build
 WORKDIR $RDBASE/build
+# Build and run all tests except PostgreSQL:
 RUN cmake -DPYTHON_EXECUTABLE=/opt/conda/bin/python -DPYTHON_INCLUDE_DIR=/opt/conda/include/python3.5m -DPYTHON_LIBRARY=/opt/conda/lib/libpython3.5m.so -DPYTHON_NUMPY_INCLUDE_PATH=/opt/conda/lib/python3.5/site-packages/numpy/core/include -D BOOST_ROOT=/opt/conda -D Boost_NO_SYSTEM_PATHS=ON -D RDK_BUILD_AVALON_SUPPORT=ON -D RDK_BUILD_INCHI_SUPPORT=ON -DRDK_BUILD_THREADSAFE_SSS=on -DRDK_TEST_MULTITHREADED=ON -DRDK_BUILD_SWIG_WRAPPERS=ON -DRDK_BUILD_PGSQL=ON .. && \
   make -j2 install && \
-  sh /src/rdkit/build/Code/PgSQL/rdkit/pgsql_install.sh
+  ctest -j2 -V -E testPgSQL
+
+# we need to force postgres to start in case we're working from a cache
+# setting an environment variable does that:
 ENV force_psql_start 1
-RUN sudo -u postgres pg_ctl -w -D /var/psql -l /tmp/psql.logfile start ; \
-   ctest -V -j2
+RUN sudo -u postgres pg_ctl -w -D /var/psql -l /tmp/psql.logfile start && \
+  sh /src/rdkit/build/Code/PgSQL/rdkit/pgsql_install.sh && \
+  ctest -V -R testPgSQL
 
 WORKDIR $RDBASE
