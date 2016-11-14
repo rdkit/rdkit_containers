@@ -1,4 +1,4 @@
-FROM centos:centos7
+FROM centos:centos6
 MAINTAINER Greg Landrum <greg.landrum@t5informatics.com>
 
 # inspired by https://github.com/InformaticsMatters/rdkit/blob/master/Dockerfile
@@ -10,17 +10,13 @@ RUN yum update -y && yum install -y \
   cairo \
   libXext \
   patch \
-  cmake \
-  bzip2 \
-  pcre-devel 
-
-RUN yum group install -y "Development Tools"
+  cmake
 
 # conda
 RUN echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
-    wget --quiet https://repo.continuum.io/miniconda/Miniconda3-4.2.12-Linux-x86_64.sh && \
-    /bin/bash /Miniconda3-4.2.12-Linux-x86_64.sh -b -p /opt/conda && \
-    rm Miniconda3-4.2.12-Linux-x86_64.sh
+    wget --quiet https://repo.continuum.io/miniconda/Miniconda2-4.2.12-Linux-x86_64.sh && \
+    /bin/bash /Miniconda2-4.2.12-Linux-x86_64.sh -b -p /opt/conda && \
+    rm Miniconda2-4.2.12-Linux-x86_64.sh
 
 ENV PATH /opt/conda/bin:$PATH
 ENV LANG C
@@ -38,9 +34,7 @@ RUN git clone https://github.com/rdkit/rdkit.git
 WORKDIR $RDBASE
 RUN git checkout $RDKIT_BRANCH
 
-# need /opt/conda/lib here because that's where the boost libs are
-# put /lib64 at the front to make sure we don't pick up the conda stuff
-# by default
 ENV LD_LIBRARY_PATH=/lib64:$RDBASE/lib:/opt/conda/lib
-
 WORKDIR $RDBASE
+
+
