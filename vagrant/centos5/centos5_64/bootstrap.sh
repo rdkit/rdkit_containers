@@ -97,6 +97,7 @@ export RDKIT_BRANCH=Release_2016_09_1
 git clone -b $RDKIT_BRANCH https://github.com/rdkit/rdkit.git
 cd rdkit
 mkdir build
+sudo chown -R vagrant:vagrant .
 cd build
 JAVA_HOME=/opt/jdk1.7.0_79 BOOST_ROOT=/usr/local cmake -DBoost_USE_STATIC_LIBS=ON -DEIGEN3_INCLUDE_DIR=/opt/eigen3 -DRDK_BUILD_PYTHON_WRAPPERS=OFF -DRDK_BUILD_SWIG_WRAPPERS=ON -DRDK_BUILD_AVALON_SUPPORT=ON -DRDK_BUILD_INCHI_SUPPORT=ON ..
 make -j2 install
