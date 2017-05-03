@@ -12,6 +12,7 @@ RUN yum update -y && yum install -y \
   patch \
   cmake \
   bzip2 \
+  which \
   pcre-devel 
 
 RUN yum group install -y "Development Tools"
@@ -29,6 +30,7 @@ ENV LANG C
 RUN conda config --prepend channels  https://conda.anaconda.org/rdkit
 RUN conda config --append channels  https://conda.anaconda.org/conda-forge
 RUN conda install -y nomkl numpy=1.11 boost=1.56 eigen
+RUN conda update python conda
 
 RUN mkdir /src
 WORKDIR /src
@@ -41,6 +43,6 @@ RUN git checkout $RDKIT_BRANCH
 # need /opt/conda/lib here because that's where the boost libs are
 # put /lib64 at the front to make sure we don't pick up the conda stuff
 # by default
-ENV LD_LIBRARY_PATH=$RDBASE/lib:/opt/conda/lib:/lib64
+ENV LD_LIBRARY_PATH=/lib64:$RDBASE/lib:/opt/conda/lib
 
 WORKDIR $RDBASE
