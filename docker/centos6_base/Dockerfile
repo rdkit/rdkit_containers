@@ -30,12 +30,10 @@ RUN conda install -y nomkl numpy=1.11 boost=1.56 eigen
 RUN mkdir /src
 WORKDIR /src
 ENV RDBASE=/src/rdkit
-ENV RDKIT_BRANCH=Release_2017_03_1
+ENV RDKIT_BRANCH=Release_2017_03
 RUN git clone https://github.com/rdkit/rdkit.git
 WORKDIR $RDBASE
 RUN git checkout $RDKIT_BRANCH
 
 ENV LD_LIBRARY_PATH=/lib64:$RDBASE/lib:/opt/conda/lib
 WORKDIR $RDBASE
-
-

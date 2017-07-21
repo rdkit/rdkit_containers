@@ -13,7 +13,7 @@ RUN yum update -y && yum install -y \
   cmake \
   bzip2 \
   which \
-  pcre-devel 
+  pcre-devel
 
 RUN yum group install -y "Development Tools"
 
@@ -35,7 +35,7 @@ RUN conda update python conda
 RUN mkdir /src
 WORKDIR /src
 ENV RDBASE=/src/rdkit
-ENV RDKIT_BRANCH=Release_2017_03_1
+ENV RDKIT_BRANCH=Release_2017_03
 RUN git clone https://github.com/rdkit/rdkit.git
 WORKDIR $RDBASE
 RUN git checkout $RDKIT_BRANCH
