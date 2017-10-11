@@ -22,19 +22,19 @@ ENV PATH /opt/conda/bin:$PATH
 ENV LANG C
 
 # actually do the conda install
+RUN echo "auto_update_conda: False" >> ~/.condarc
 RUN conda config --add channels  https://conda.anaconda.org/rdkit
-RUN conda install -y nomkl numpy=1.10 boost=1.56
-RUN conda install -y -c conda-forge eigen
+RUN conda install -y nomkl numpy=1.13 boost=1.63
+RUN conda install -y conda=4.3.25
+RUN conda install -y eigen
 
 RUN mkdir /src
 WORKDIR /src
 ENV RDBASE=/src/rdkit
-ENV RDKIT_BRANCH=Release_2016_09_1
+ARG RDKIT_BRANCH
 RUN git clone https://github.com/rdkit/rdkit.git
 WORKDIR $RDBASE
 RUN git checkout $RDKIT_BRANCH
 
 ENV LD_LIBRARY_PATH=/lib64:$RDBASE/lib:/opt/conda/lib
 WORKDIR $RDBASE
-
-
