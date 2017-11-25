@@ -33,3 +33,4 @@ RUN JAVA_HOME=/usr/java/latest/ cmake -DRDK_BUILD_PYTHON_WRAPPERS=OFF -DEIGEN3_I
 RUN make -j2 install
 RUN ctest -j2 --output-on-failure
 WORKDIR $RDBASE
+
