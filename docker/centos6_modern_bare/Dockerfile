@@ -17,11 +17,12 @@ RUN yum install -y devtoolset-6
 
 
 
-# conda
+# conda. For now we are sticking to an old version because of the nightmare that is
+# modern conda (and cairo in this case)
 RUN echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
-     wget --quiet https://repo.continuum.io/miniconda/Miniconda3-4.4.10-Linux-x86_64.sh && \
-     /bin/bash /Miniconda3-4.4.10-Linux-x86_64.sh -b -p /opt/conda && \
-     rm Miniconda3-4.4.10-Linux-x86_64.sh
+     wget --quiet https://repo.continuum.io/miniconda/Miniconda3-4.3.21-Linux-x86_64.sh && \
+     /bin/bash /Miniconda3-4.3.21-Linux-x86_64.sh -b -p /opt/conda && \
+     rm Miniconda3-4.3.21-Linux-x86_64.sh
 
 ENV PATH /opt/conda/bin:$PATH
 ENV LANG C
@@ -36,7 +37,7 @@ tar xjf boost_1_63_0.tar.bz2
 WORKDIR /opt/boost_1_63_0
 
 RUN . /opt/rh/devtoolset-6/enable && \
-export CFLAGS="-O2 -shared" && \
+export CFLAGS="-O2 -shared -fPIC" && \
 export CXXFLAGS="-std=c++14 ${CFLAGS}"  && \
 export BZIP2_INCLUDE="/opt/conda/include" && \
 export BZIP2_LIBPATH="/opt/conda/lib" && \
@@ -51,7 +52,9 @@ sed -i 's|using python : 3.6 : /opt/conda ;|using python : 3.6 : /opt/conda/bin/
 RUN echo "auto_update_conda: False" >> ~/.condarc
 # RUN conda config --add channels  https://conda.anaconda.org/rdkit
 RUN conda install -y nomkl numpy=1.13
-RUN conda install -y eigen conda-build anaconda-client cmake
+RUN conda install -y eigen conda-build anaconda-client
+# we need a versino of cmake more recent than 3.6 so that boost 1.63 is recognized
+RUN conda install -y -c conda-forge cmake
 #RUN conda install -y --override-channels -c conda-forge bzip2 cmake
 
 # now ready to build the RDKit
