@@ -21,7 +21,7 @@ RUN . /opt/rh/devtoolset-6/enable && \
      -DRDK_BUILD_CAIRO_SUPPORT=ON -DRDK_BUILD_THREADSAFE_SSS=ON -DRDK_TEST_MULTITHREADED=ON \
      -DRDK_BUILD_SWIG_WRAPPERS=OFF -DRDK_BUILD_CPP_TESTS=ON ..
 #
-RUN make -j2 install
+#RUN make -j2 install
 #ENV PYTHONPATH=$RDBASE
 #RUN conda install -y pandas pillow
-RUN ctest -j2 --output-on-failure
+#RUN ctest -j2 --output-on-failure

@@ -4,9 +4,8 @@ MAINTAINER Greg Landrum <greg.landrum@t5informatics.com>
 RUN yum update -y && yum install -y \
   wget \
   git \
-  cairo \
-  cairo-devel \
   libXext \
+  libXrender-devel \
   patch
 
 # devtoolset (http://linux.web.cern.ch/linux/devtoolset/#dts21)
@@ -51,7 +50,7 @@ sed -i 's|using python : 3.6 : /opt/conda ;|using python : 3.6 : /opt/conda/bin/
 # # actually do the conda install
 RUN echo "auto_update_conda: False" >> ~/.condarc
 # RUN conda config --add channels  https://conda.anaconda.org/rdkit
-RUN conda install -y nomkl numpy=1.13
+RUN conda install -y nomkl numpy=1.13 cairo
 RUN conda install -y eigen conda-build anaconda-client
 # we need a versino of cmake more recent than 3.6 so that boost 1.63 is recognized
 RUN conda install -y -c conda-forge cmake
