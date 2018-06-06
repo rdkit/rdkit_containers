@@ -7,9 +7,9 @@ RUN yum update -y && yum install -y \
   wget
 
 RUN echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
-     wget --quiet https://repo.continuum.io/miniconda/Miniconda3-4.4.10-Linux-x86_64.sh && \
-     /bin/bash /Miniconda3-4.4.10-Linux-x86_64.sh -b -p /opt/conda && \
-     rm Miniconda3-4.4.10-Linux-x86_64.sh
+     wget --quiet https://repo.continuum.io/miniconda/Miniconda3-4.5.1-Linux-x86_64.sh && \
+     /bin/bash /Miniconda3-4.5.1-Linux-x86_64.sh -b -p /opt/conda && \
+     rm Miniconda3-4.5.1-Linux-x86_64.sh
 
 ENV PATH /opt/conda/bin:$PATH
 ENV LANG C
