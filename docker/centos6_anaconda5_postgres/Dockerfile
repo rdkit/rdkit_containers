@@ -1,6 +1,8 @@
 FROM centos:centos6
 MAINTAINER Greg Landrum <greg.landrum@t5informatics.com>
 
+# container for building the RDKit cartridge using anaconda5
+
 RUN yum update -y && yum install -y \
   wget
 

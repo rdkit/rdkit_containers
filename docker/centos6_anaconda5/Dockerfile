@@ -1,6 +1,8 @@
 FROM centos:centos6
 MAINTAINER Greg Landrum <greg.landrum@t5informatics.com>
 
+# container for building the RDKit python wrappers using anaconda5
+
 RUN yum update -y && yum install -y \
   wget
 
@@ -27,5 +29,5 @@ RUN git checkout development
 RUN source activate base && conda build nox
 RUN source activate base && conda build cairo_nox
 RUN source activate base && CONDA_PY=36 conda build rdkit
-#RUN source activate base && CONDA_PY=27 conda build rdkit
-#RUN source activate base && CONDA_PY=35 conda build rdkit
+RUN source activate base && CONDA_PY=27 conda build rdkit
+RUN source activate base && CONDA_PY=35 conda build rdkit
