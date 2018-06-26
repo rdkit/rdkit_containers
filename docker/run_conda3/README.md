@@ -25,5 +25,6 @@ You'll need to figure out the appropriate IP address to connect to in order to u
 
 it make take a few seconds (and require a refresh) for the server to finish starting up so that you can see anything in the browser.
 
+### Additional instructions
 
-
+For a detailed walkthrough with additional information, visit [this github repository](https://github.com/simonkeng/rdkit-jupyter-docker).
