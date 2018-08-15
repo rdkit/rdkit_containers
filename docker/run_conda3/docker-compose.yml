@@ -1,0 +1,7 @@
+version: '3'
+services:
+  notebook:
+    build: .
+    image: simonkeng/rdkit-jupyter-docker
+    ports:
+      - "8888:8888"
