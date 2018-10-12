@@ -14,4 +14,4 @@ RUN mkdir /my_data
 
 EXPOSE 8888
 
-CMD jupyter notebook --notebook-dir=/tmp --ip=* --allow-root
+CMD jupyter notebook --notebook-dir=/tmp --ip='0.0.0.0' --allow-root

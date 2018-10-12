@@ -5,8 +5,8 @@ Easily run a Jupyter notebook in Python 3, with all the RDKit dependencies and p
 ## Instructions
 
 1. Install [Docker](https://www.docker.com/community-edition).
-2. Clone this repo: `git clone https://github.com/simonkeng/rdkit-jupyter-docker.git`
-3. Build docker image from Dockerfile
+2. Clone this repo.
+3. Build docker image from Dockerfile:
 
 ```bash
 docker build -t run_rdkit_conda .
@@ -61,7 +61,7 @@ completed you can use docker-compose to complete steps 3-7:
 Step 3:
 
 ```bash
-docker-compose --build
+docker-compose build
 ```
 
 Step 4-7:
