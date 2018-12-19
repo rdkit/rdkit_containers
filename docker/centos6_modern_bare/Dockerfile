@@ -16,8 +16,7 @@ RUN yum install -y devtoolset-6
 
 
 
-# conda. For now we are sticking to an old version because of the nightmare that is
-# modern conda (and cairo in this case)
+# conda.
 RUN echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
      wget --quiet https://repo.continuum.io/miniconda/Miniconda3-4.3.21-Linux-x86_64.sh && \
      /bin/bash /Miniconda3-4.3.21-Linux-x86_64.sh -b -p /opt/conda && \
@@ -29,11 +28,20 @@ ENV LANG C
 
 # install boost from scratch (yay)
 WORKDIR /opt
-RUN wget https://dl.bintray.com/boostorg/release/1.63.0/source/boost_1_63_0.tar.bz2 && \
-tar xjf boost_1_63_0.tar.bz2
+RUN wget -q https://dl.bintray.com/boostorg/release/1.65.1/source/boost_1_65_1.tar.bz2 && \
+tar xjf boost_1_65_1.tar.bz2
 
 # build boost
-WORKDIR /opt/boost_1_63_0
+WORKDIR /opt/boost_1_65_1
+
+# # actually do the conda install
+# RUN echo "auto_update_conda: False" >> ~/.condarc
+# RUN conda config --add channels  https://conda.anaconda.org/rdkit
+RUN conda install -y nomkl numpy 
+RUN conda install -y eigen conda-build anaconda-client
+RUN conda install -y conda-forge::cmake
+RUN conda install -y -c rdkit nox
+RUN conda install -y -c rdkit cairo 
 
 RUN . /opt/rh/devtoolset-6/enable && \
 export CFLAGS="-O2 -shared -fPIC" && \
@@ -44,16 +52,10 @@ export ZLIB_INCLUDE="/opt/conda/include" && \
 export ZLIB_LIBPATH="/opt/conda/lib" && \
 ./bootstrap.sh --prefix="/opt/boost/"  && \
 sed -i 's|using python : 3.6 : /opt/conda ;|using python : 3.6 : /opt/conda/bin/python : /opt/conda/include/python3.6m : /opt/conda/lib ;|' project-config.jam && \
+#sed -i 's|return PyUnicode_Check(obj) ? _PyUnicode_AsString(obj) : 0;|return (void *)PyUnicode_Check(obj) ? (void *)_PyUnicode_AsString(obj) : 0;|' libs/python/src/converter/builtin_converters.cpp && \
 ./b2 -q install -j2 cxxflags="$CXXFLAGS"
+#ls
 #
 
-# # actually do the conda install
-RUN echo "auto_update_conda: False" >> ~/.condarc
-# RUN conda config --add channels  https://conda.anaconda.org/rdkit
-RUN conda install -y nomkl numpy=1.13 cairo
-RUN conda install -y eigen conda-build anaconda-client
-# we need a versino of cmake more recent than 3.6 so that boost 1.63 is recognized
-RUN conda install -y -c conda-forge cmake
-#RUN conda install -y --override-channels -c conda-forge bzip2 cmake
 
 # now ready to build the RDKit

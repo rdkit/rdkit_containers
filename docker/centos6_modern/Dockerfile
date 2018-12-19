@@ -6,7 +6,8 @@ WORKDIR /src
 ENV RDBASE=/src/rdkit
 RUN git clone https://github.com/rdkit/rdkit.git
 WORKDIR $RDBASE
-RUN git checkout master
+ARG BRANCH=master
+RUN git fetch && git checkout $BRANCH
 
 ENV LD_LIBRARY_PATH=/opt/conda/lib:/opt/boost/lib:/lib64:$RDBASE/lib
 RUN mkdir $RDBASE/build
@@ -21,7 +22,4 @@ RUN . /opt/rh/devtoolset-6/enable && \
      -DRDK_BUILD_CAIRO_SUPPORT=ON -DRDK_BUILD_THREADSAFE_SSS=ON -DRDK_TEST_MULTITHREADED=ON \
      -DRDK_BUILD_SWIG_WRAPPERS=OFF -DRDK_BUILD_CPP_TESTS=ON ..
 #
-#RUN make -j2 install
-#ENV PYTHONPATH=$RDBASE
-#RUN conda install -y pandas pillow
-#RUN ctest -j2 --output-on-failure
+# RUN make -j2 install
