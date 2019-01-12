@@ -4,13 +4,36 @@ Easily run a Jupyter notebook in Python 3, with all the RDKit dependencies and p
 
 ## Instructions
 
-1. Install [Docker](https://www.docker.com/community-edition).
+1. Install [Docker](https://www.docker.com/community-edition) and [docker-compose](https://docs.docker.com/compose/install/).
 2. Clone this repo.
-3. Build docker image from Dockerfile:
+3. Build docker image from Dockerfile, using `docker-compose`:
+
+
+```bash
+docker-compose build
+```
+4. Run container: 
+
+```bash
+# start container with logs output to terminal
+docker-compose up
+
+# or start container in background
+docker-compose up -d
+
+# output the container logs
+docker-compose logs -f
+```
+-----
+
+### Alternatively 
+
+You can use regular docker:
 
 ```bash
 docker build -t run_rdkit_conda .
 ```
+
 
 4. Run the docker container:
 
@@ -52,26 +75,3 @@ from IPython.display import Image
 ### Caveats
 If you are running any other processes on port 8888 (e.g. another Jupyter notebook) then you will likely have problems connecting to the containerized notebook in the browser. I recommend shutting down any other Jupyter notebooks first, before running `docker run`.
 
-Docker Compose
-===
-
-Once steps 1 and 2 of the [Instuctions](#instructions) sections have been
-completed you can use docker-compose to complete steps 3-7:
-
-Step 3:
-
-```bash
-docker-compose build
-```
-
-Step 4-7:
-```bash
-# start container with logs output to terminal
-docker-compose up
-
-# or start container in background
-docker-compose up -d
-
-# output the container logs
-docker-compose logs -f
-```
