@@ -38,7 +38,11 @@ docker build -t run_rdkit_conda .
 4. Run the docker container:
 
 ```bash
-docker run -d -p 8888:8888 -t run_rdkit_conda /bin/bash -c "jupyter notebook --notebook-dir=/tmp --ip=* --allow-root"
+# run container in the background
+docker run -d -p 8888:8888 -t run_rdkit_conda 
+
+# run container in the foreground
+docker run -it -p 8888:8888 -t run_rdkit_conda
 ```
 
 5. Docker will return a container ID, type `docker logs <id>` passing in the first three characters from the id.
