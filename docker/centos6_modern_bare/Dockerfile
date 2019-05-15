@@ -45,7 +45,7 @@ RUN conda install -y -c rdkit cairo
 
 RUN . /opt/rh/devtoolset-6/enable && \
 export CFLAGS="-O2 -shared -fPIC" && \
-export CXXFLAGS="-std=c++14 ${CFLAGS}"  && \
+export CXXFLAGS="-std=c++11 ${CFLAGS}"  && \
 export BZIP2_INCLUDE="/opt/conda/include" && \
 export BZIP2_LIBPATH="/opt/conda/lib" && \
 export ZLIB_INCLUDE="/opt/conda/include" && \
