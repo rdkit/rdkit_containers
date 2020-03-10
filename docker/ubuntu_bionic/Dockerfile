@@ -38,4 +38,5 @@ RUN mkdir build
 WORKDIR build
 RUN cmake -DPYTHON_EXECUTABLE=/usr/bin/python3 ..
 RUN make -j3 .. install
-RUN ctest -j3
+RUN ctest -j3 --output-on-failure
+
